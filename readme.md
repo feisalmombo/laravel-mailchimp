@@ -26,29 +26,7 @@ MAILCHIMP_LIST_ID=xxxxxxxxxxxxxxx
 
 composer require skovmand/mailchimp-laravel
 
-Now we need to add provider path and alias path in config/app.php file so open that file and add bellow code.
-
-config/app.php
-
-return [
-	$provides => [
-		Skovmand\Mailchimp\MailchimpServiceProvider::class,
-	],
-]
-
-
 ## Step 3: Add Form Collective Package
 
 composer require "laravelcollective/html":"^5.6.0"
 
-Next, add your new provider to the providers array of config/app.php:
-
-  'providers' => [
-    Collective\Html\HtmlServiceProvider::class,
-  ],
-Finally, add two class aliases to the aliases array of config/app.php:
-
-  'aliases' => [
-      'Form' => Collective\Html\FormFacade::class,
-      'Html' => Collective\Html\HtmlFacade::class,
-  ],
