@@ -1,65 +1,54 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+## Mailchimp Integration using Laravel
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+This application shows how to integrate mailchimp api in laravel.
 
-## About Laravel
+Mailchimp provides manage subscribers, send emails using campaign and also track email results etc. Mailchimp through you can track how much subscribers open email and read. If you have newsletter website or any tutorial website then you should add email subscriber function that way we can inform through email.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel attempts to take the pain out of development by easing common tasks used in the majority of web projects, such as:
+ I use skovmand/mailchimp-laravel laravel package for mailchimp api in laravel 5.6 application. The following are some steps used to install this package
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
-Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
+ ## Step 1: Create MailChimp Account Setting
+ 
+ If you are from scratch, i mean if you don't have account then you can create new account from here : **[Create New Account](https://mailchimp.com/)**
 
-## Learning Laravel
+ Ok, now you have to create new List, click on Lists on menu and create new list. After create successfully lists then select your list, got to settings->List name and defaults and copy your list id, we will use it on api.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of any modern web application framework, making it a breeze to get started learning the framework.
+Now we can get API Key so click here and get api key : **[API Key](https://us10.admin.mailchimp.com/account/api/)**
 
-If you're not in the mood to read, [Laracasts](https://laracasts.com) contains over 1100 video tutorials on a range of topics including Laravel, modern PHP, unit testing, JavaScript, and more. Boost the skill level of yourself and your entire team by digging into our comprehensive video library.
+and Add the Audience Key/ List key : **[LIST ID](https://us10.admin.mailchimp.com/lists/settings/defaults)**
 
-## Laravel Sponsors
+Open your .env file and paste here this way:
 
-We would like to extend our thanks to the following sponsors for helping fund on-going Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell):
+MAILCHIMP_API_KEY=xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+MAILCHIMP_LIST_ID=xxxxxxxxxxxxxxx
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
+## Step 2: Install Package
 
-## Contributing
+composer require skovmand/mailchimp-laravel
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+Now we need to add provider path and alias path in config/app.php file so open that file and add bellow code.
 
-## Security Vulnerabilities
+config/app.php
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+return [
+	$provides => [
+		Skovmand\Mailchimp\MailchimpServiceProvider::class,
+	],
+]
 
-## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+## Step 3: Add Form Collective Package
+
+composer require "laravelcollective/html":"^5.6.0"
+
+Next, add your new provider to the providers array of config/app.php:
+
+  'providers' => [
+    Collective\Html\HtmlServiceProvider::class,
+  ],
+Finally, add two class aliases to the aliases array of config/app.php:
+
+  'aliases' => [
+      'Form' => Collective\Html\FormFacade::class,
+      'Html' => Collective\Html\HtmlFacade::class,
+  ],
